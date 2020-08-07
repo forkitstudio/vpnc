@@ -1,0 +1,32 @@
+version: "3.5"
+networks:
+  vpn: {}
+
+services:
+  vpnc:
+    privileged: true
+    tty: true
+    image: forkitstudio/vpnc:latest
+    environment:
+    - VPNC_ID=${VPNC_ID}
+    - VPNC_GATEWAY=${VPNC_GATEWAY}
+    - VPNC_SECRET=${VPNC_SECRET}
+    - VPNC_USERNAME=${VPNC_USERNAME}
+    - VPNC_PASSWORD=${VPNC_PASSWORD}
+#    - CUSTOMSCRIPT=/etc/service/vpnc/scripts/custom_cmd.sh
+# Here is an example as you can propagate environment variables to the custom script by adding the prefix PROPAG_
+    - PROPAG_INTERNAL_IP4_DNS=
+    - PROPAG_CISCO_SPLIT_INC="1"
+    - PROPAG_CISCO_SPLIT_INC_0_ADDR="10.62.0.0"
+    - PROPAG_CISCO_SPLIT_INC_0_MASK="255.255.0.0"
+    - PROPAG_CISCO_SPLIT_INC_0_MASKLEN="16"
+    - PROPAG_CISCO_SPLIT_INC_0_PROTOCOL="0"
+    - PROPAG_CISCO_SPLIT_INC_0_SPORT="0"
+    - PROPAG_CISCO_SPLIT_INC_0_DPORT="0"
+
+    restart: on-failure
+#    volumes:
+#      - "./custom_cmd.sh:/etc/service/vpnc/scripts/custom_cmd.sh:ro"
+#      - "./custom-vpnc-script.sh:/etc/service/vpnc/scripts/custom-vpnc-script.sh:ro"
+    networks:
+      - vpn
